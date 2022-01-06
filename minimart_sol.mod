@@ -23,7 +23,7 @@ minimize cost:
 	sum{i in N} Dc[i]*y[i];
 
 s.t. coverage {i in N}:
-	sum{j in N: distance[i,j]<range} y[j] >= 1;
+	sum{j in N: distance[i,j]<=range} y[j] >= 1;
 	
 s.t. cannotUseNonUsablePoints {i in N: usable[i]=0}:
 	y[i]=0;
