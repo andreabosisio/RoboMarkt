@@ -3,9 +3,6 @@ import sys
 
 file_name, ampl_path, input_file_path = sys.argv
 
-if len(sys.argv) < 3:
-    sys.exit()
-
 # Create an AMPL instance
 ampl = AMPL(Environment(ampl_path))
 
@@ -42,10 +39,9 @@ for i in range(1, len(y) + 1):
         storesCoords.update({i: (coordX.get(i), coordY.get(i))})
 
 
-# Plot the region: see the print.txt file
-
 # Refurbishing Routes Problem
 def compute_savings():
+    # compute s(i,j) = dist(1,j) + dist(1,j) - dist(i,j) for each i,j in stores
     stores_indxs = storesCoords.keys()
     savings = [(distances.get((1, i)) + distances.get((1, j)) - distances.get((i, j)), i, j) for i in stores_indxs for j
                in stores_indxs if i != j and i > j]
@@ -89,7 +85,7 @@ def merge_routes(r1, s1, r2):
     return r1_c + s1 + r2_c
 
 
-def clarke_wright():
+def savings_algorithm():
     while len(savings) > 0:
         curr_saving = savings.pop(0)
         r1, r2 = find_routes_passing_through(curr_saving[1], curr_saving[2])
@@ -101,9 +97,7 @@ def clarke_wright():
                 routes.insert(0, new_route)
 
 
-clarke_wright()
-
-# Plot the routes: see the print.txt file
+savings_algorithm()
 
 # Final cost
 total_km = 0
