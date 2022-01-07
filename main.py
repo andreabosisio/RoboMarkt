@@ -18,6 +18,7 @@ usable = ampl.get_parameter('usable').get_values().toDict()  # village i can be 
 dc = ampl.get_parameter('Dc').get_values().toDict()  # cost to build a store in village i
 rng = int(ampl.get_parameter('range').value())  # max range
 distances = ampl.get_parameter('distance').get_values().to_dict()  # distances from i to j
+weighted_distances = dict()
 vc = ampl.get_parameter('Vc').value()  # driving cost per kilometer
 fc = ampl.get_parameter('Fc').value()  # fixed fee for each driver
 capacity = int(ampl.get_parameter('capacity').value())  # capacity of each truck
@@ -41,9 +42,14 @@ for i in range(1, len(y) + 1):
 
 # Refurbishing Routes Problem
 def compute_savings():
+    for d in distances.keys():
+        weighted_distances.update({d: distances.get(d) * vc})
+        if d[0] == 1:
+            weighted_distances.update({d: distances.get(d) + fc})
+
     # compute s(i,j) = dist(1,j) + dist(1,j) - dist(i,j) for each i,j in stores
     stores_indxs = storesCoords.keys()
-    savings = [(distances.get((1, i)) + distances.get((1, j)) - distances.get((i, j)), i, j) for i in stores_indxs for j
+    savings = [(weighted_distances.get((1, i)) + weighted_distances.get((1, j)) - weighted_distances.get((i, j)), i, j) for i in stores_indxs for j
                in stores_indxs if i != j and i > j]
     savings.sort(reverse=True)
     return savings
@@ -100,20 +106,16 @@ def savings_algorithm():
 savings_algorithm()
 
 # Final cost
-total_km = 0
+driving_costs = 0
 for route in routes:
     for i, j in zip(route, route[1:]):
-        total_km = total_km + distances.get((i, j))
+        driving_costs = driving_costs + weighted_distances.get((i, j))
 
-driving_costs = total_km * vc
-driving_fees = len(routes) * fc
-
-total_refurbishing_costs = driving_costs + driving_fees
-total_costs = total_refurbishing_costs + building_costs
+total_costs = building_costs + driving_costs
 
 print(total_costs)
 print(building_costs)
-print(total_refurbishing_costs)
+print(driving_costs)
 print(*storesCoords, sep=",")
 for route in routes:
     print(*route, sep=",")
