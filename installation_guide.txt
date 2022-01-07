@@ -1,0 +1,8 @@
+1. Install AMPL API by following the official guide:
+https://amplpy.readthedocs.io/en/stable/getting-started.html#installation
+
+2. Install the matplotlib library for visualizing the plots by following the official guide (it is not required):
+https://matplotlib.org/stable/users/installing/index.html
+
+3. Open a terminal, go to the project folder and run the python project by typing:
+python main.py ampl_folder input_data_folder
