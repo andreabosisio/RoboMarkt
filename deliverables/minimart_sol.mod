@@ -12,7 +12,6 @@ param distance{i in N, j in N} := sqrt((Cx[j]-Cx[i])**2 + (Cy[j]-Cy[i])**2);
 
 param range;
 
-#maybe remove
 param Vc default 0.1;
 param Fc default 100;
 param capacity default 10;
