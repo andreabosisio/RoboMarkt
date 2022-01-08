@@ -3,6 +3,7 @@ import sys
 
 file_name, ampl_path, input_file_path = sys.argv
 ampl_model_filename = 'minimart_sol.mod'
+output_separator = "-----"
 
 
 def solve_stores_installation_problem():
@@ -138,6 +139,8 @@ def print_results(stores_coords, routes, driving_cost):
             driving_costs = driving_costs + driving_cost.get((i, j))
 
     total_costs = building_costs + driving_costs
+
+    print(output_separator)
 
     print(total_costs)
     print(building_costs)
