@@ -1,9 +1,17 @@
 from amplpy import AMPL, Environment
-import sys
+import sys, os
 
 file_name, ampl_path, input_file_path = sys.argv
 ampl_model_filename = 'minimart_sol.mod'
 output_separator = "-----"
+
+# Disable printing
+def blockPrint():
+    sys.stdout = open(os.devnull, 'w')
+
+# Restore printing
+def enablePrint():
+    sys.stdout = sys.__stdout__
 
 
 def solve_stores_installation_problem():
@@ -33,7 +41,10 @@ def solve_stores_installation_problem():
 
     # Solve the store locations installation problem
     ampl.set_option('solver', ampl_path + "/cplex")
+
+    blockPrint()
     ampl.solve()
+    enablePrint()
 
     building_costs = ampl.get_objective('cost').value()
 
@@ -139,8 +150,6 @@ def print_results(stores_coords, routes, driving_cost):
             driving_costs = driving_costs + driving_cost.get((i, j))
 
     total_costs = building_costs + driving_costs
-
-    print(output_separator)
 
     print(total_costs)
     print(building_costs)
