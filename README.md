@@ -3,5 +3,5 @@ Implementation of a program that solves the problem of deciding where to install
 
 The full **description of the problem** is available [here](/minimart-2.pdf). 
 
-A detailed **explanatin of the solution** of the problem is available [here](/deliverables/report.pdf). 
-Also, an interactive python **notebook** is also available [here](/RoboMarkt.ipynb), which shows plots to better understand the intermadiate steps of the solution of the whole problem.
+A detailed **explanation of the solution** of the problem is available [here](/deliverables/report.pdf). 
+Also, an interactive python **notebook** is also available [here](/RoboMarkt.ipynb), which shows plots to better understand the intermediate steps of the solution of the whole problem.
